@@ -1,19 +1,70 @@
-AI Support Ticket Automation (n8n)
+# 🤖 AI Support Ticket Automation
 
-This project is an end-to-end automation workflow built in n8n that streamlines how support tickets are handled.
-The workflow receives incoming tickets through a webhook, processes the data, and uses an AI model to automatically classify the issue type.
+![n8n](https://img.shields.io/badge/Built%20With-n8n-ff6d5a?style=for-the-badge)
+![AI](https://img.shields.io/badge/AI-OpenAI-412991?style=for-the-badge)
+![Automation](https://img.shields.io/badge/Type-Workflow%20Automation-0aa8a7?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Portfolio%20Project-success?style=for-the-badge)
 
-Once categorized, the system sends instant team notifications via Slack, stores structured ticket data in Google Sheets, and triggers automated email confirmations to customers.
-In addition, a scheduled workflow generates daily support reports, giving visibility into ticket volume and trends.
+## 📌 Overview
 
-This project demonstrates practical experience with:
+This project is an end-to-end support automation workflow built using n8n.  
+It automatically receives customer support tickets, categorizes them using AI, notifies the team, stores structured data, and sends confirmation emails — creating a fully automated support pipeline.
 
-Event-driven automation
+The goal of this project is to demonstrate how AI, automation, and service integrations can streamline real-world support operations and reduce manual effort.
 
-AI integration in real workflows
+## 🚀 What This Workflow Does
 
-API orchestration across multiple services
+• Receives support tickets via webhook  
+• Uses AI to classify the issue type  
+• Sends instant Slack notifications to the team  
+• Logs ticket data in Google Sheets  
+• Sends automated confirmation emails to customers  
+• Generates structured data for reporting  
 
-Workflow design and error-resilient processing
+## 🧠 Workflow Architecture
 
-Overall, the solution shows how automation can reduce manual work, improve response time, and create a scalable support operations pipeline.
+Webhook → Data Processing → AI Categorization → Slack Notification → Google Sheets Storage → Email Confirmation
+
+## 🛠️ Tech Stack
+
+n8n — Workflow orchestration  
+OpenAI — Issue classification  
+Slack — Team notifications  
+Google Sheets — Ticket storage  
+Gmail — Email automation  
+
+## 💡 Key Highlights
+
+• Event-driven automation design  
+• Real AI integration in a practical workflow  
+• Multi-service orchestration  
+• Scalable and modular workflow structure  
+
+## 📸 Screenshots
+
+(Add your screenshots here after uploading them to the repo)
+
+![Workflow](workflow.png)
+
+## 🎯 Business Value
+
+This automation demonstrates how organizations can reduce manual support workload, improve response time, maintain structured ticket tracking, and scale support operations efficiently.
+
+## 📚 What I Learned
+
+• Designing event-driven workflows  
+• Integrating AI into business processes  
+• Connecting multiple services in automation  
+• Structuring real-world automation projects  
+
+## 🔮 Future Improvements
+
+• Priority and sentiment detection  
+• Advanced error-handling workflow  
+• Analytics dashboard  
+• Database integration  
+
+## 👩‍💻 Author
+
+Nithya Srinivasan  
+Automation & Cloud Enthusiast
