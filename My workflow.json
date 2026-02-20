@@ -1,0 +1,503 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5ee9f7c8-6331-4654-8952-b4c4190b41c7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        32
+      ],
+      "id": "036e5607-e3f3-4528-b71b-5eeb4d01e306",
+      "name": "Webhook",
+      "webhookId": "5ee9f7c8-6331-4654-8952-b4c4190b41c7"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6bfce579-c3d6-408b-8f3e-5ad96cdcfa0b",
+              "name": "customerName",
+              "value": "={{$json.name}}",
+              "type": "string"
+            },
+            {
+              "id": "3a553126-7d62-4561-b12b-f8c6b3885ed0",
+              "name": "customerEmail",
+              "value": "={{$json.email}}",
+              "type": "string"
+            },
+            {
+              "id": "cef852dc-913c-4efd-97a8-9ec36fe10be8",
+              "name": "issue",
+              "value": "={{$json.issue}}",
+              "type": "string"
+            },
+            {
+              "id": "ba3080a1-762b-4256-97e4-7f216f887b78",
+              "name": "createdAt",
+              "value": "={{$now}}",
+              "type": "string"
+            },
+            {
+              "id": "73edf3f5-3a3f-4983-bdc2-9ce6a917d30b",
+              "name": "ticketId",
+              "value": "=TICKET-{{$now.toMillis()}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        32
+      ],
+      "id": "77b50b05-8a2b-4c78-97d7-f39dec336e80",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kE9_Hv6ZW0VBMidni67Os4K7TolBw8FY6qN2QK5kZLU",
+          "mode": "list",
+          "cachedResultName": "Support Tickets",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kE9_Hv6ZW0VBMidni67Os4K7TolBw8FY6qN2QK5kZLU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kE9_Hv6ZW0VBMidni67Os4K7TolBw8FY6qN2QK5kZLU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{$node[\"Edit Fields\"].json.customerName}}",
+            "Email": "={{$node[\"Edit Fields\"].json.customerEmail}}",
+            "Date": "={{$node[\"Edit Fields\"].json.createdAt}}",
+            "Issue": "={{$node[\"Edit Fields\"].json.issue}}",
+            "TicketID": "={{$node[\"Edit Fields\"].json.ticketId}}",
+            "Category": "={{$node[\"Edit Fields1\"].json.category}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Issue",
+              "displayName": "Issue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TicketID",
+              "displayName": "TicketID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1328,
+        32
+      ],
+      "id": "34735198-3785-473a-8eb6-2fb181c1a654",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXmULqFsZZ9e2Mx7",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a support ticket classifier.\n\nRead this issue:\n{{ $json.issue }}\n\nReturn ONLY one category:\nBilling, Technical, Login, General",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        400,
+        32
+      ],
+      "id": "b034bbb7-32e3-4336-be45-b35c6e689c15",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        176
+      ],
+      "id": "f3872ff2-4776-4bb3-9a59-711b1a68cc27",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "TMqni7roqr2QYQ28",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c6424bcf-2165-4dc8-8873-cc978fe98938",
+              "name": "category",
+              "value": "={{$json.output}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        32
+      ],
+      "id": "16c91a71-e180-4a08-92c6-d169c723a890",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0AG8QPMVN0",
+          "mode": "list",
+          "cachedResultName": "all-support"
+        },
+        "text": "=🚨 New Support Ticket\n\nName: {{$node[\"Edit Fields\"].json.customerName}}\nIssue: {{$node[\"Edit Fields\"].json.issue}}\nCategory: {{$node[\"Edit Fields1\"].json.category}}\nTicket ID: {{$node[\"Edit Fields\"].json.ticketId}}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [
+        976,
+        32
+      ],
+      "id": "95449eea-6f60-49c2-86ae-839470abd244",
+      "name": "Send a message2",
+      "webhookId": "e1e659f4-7946-41b4-a095-71eaf34b6782",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "E4kTItjnqOAvF9Bn",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "INPUT — Ticket Intake\n\nThis step receives new support tickets through the webhook and captures customer details like name, email, and issue description."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -176
+      ],
+      "id": "bc9943ac-2a0c-47d3-b6d1-9c214fa2a3da",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2a6e9799-de10-4904-8889-24b16a656cdc",
+              "leftValue": "={{$json.email}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        32,
+        32
+      ],
+      "id": "b610e6e0-2614-415b-9b9f-ab62e3f96a4b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "content": "AI — Categorization\n\nThe AI model analyzes the issue text and automatically classifies the ticket into categories such as Login, Billing, or Technical to help the team prioritize faster."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        464,
+        -176
+      ],
+      "id": "eb2eda0f-70b7-4885-80c2-137c3907fcbf",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "STORAGE — Save Data\n\nAll ticket information is stored in Google Sheets to maintain a structured log for tracking, reporting, and future analysis."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        -176
+      ],
+      "id": "9a38a136-1c55-45be-b6c3-dc7b7f4c244a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "NOTIFICATIONS — Alerts\n\nA Slack notification is sent to the support team so they are instantly informed whenever a new ticket is created."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        896,
+        -176
+      ],
+      "id": "24c46281-4818-4295-87f6-fdb69a0ebe80",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Email\n\nThe system sends an automatic confirmation email to the customer with their ticket details, ensuring they know their request has been received."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        -192
+      ],
+      "id": "16b935e9-2439-4f1e-b89b-8d03b4f5b2a3",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "sendTo": "augyuvi@gmail.com",
+        "subject": "New Support Ticket 🚨",
+        "message": "=Hi {{$node[\"Edit Fields\"].json.customerName}},\n\nYour support ticket has been created.\n\nTicket ID: {{$node[\"Edit Fields\"].json.ticketId}}\nIssue: {{$node[\"Edit Fields\"].json.issue}}\n\nOur team will contact you soon.\n\nThanks,\nSupport Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1712,
+        32
+      ],
+      "id": "dd544274-6752-45a1-a388-022f1986b45e",
+      "name": "Send Customer Confirmation1",
+      "webhookId": "6ca79ba7-1242-4654-880a-ea6bc253f519",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GusYN1fKEU5cySEP",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "name": "Nithya",
+          "email": "nithya@test.com",
+          "issue": "Login problem"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send Customer Confirmation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "633c4906-8ef8-49af-a94e-d96716352b7d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "73bd82637612f9c2f0cec776f2883d7c7cba9273cc29fc5b4402f8312ce355d3"
+  },
+  "id": "Yh4kRvLw43zVbkXN",
+  "tags": []
+}
