@@ -42,7 +42,6 @@ Gmail — Email automation
 
 ## 📸 Screenshots
 
-(Add your screenshots here after uploading them to the repo)
 
 ![Workflow](workflow.png)
 
