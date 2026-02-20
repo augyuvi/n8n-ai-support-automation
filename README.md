@@ -43,7 +43,8 @@ Gmail — Email automation
 ## 📸 Screenshots
 
 
-![Workflow](workflow.png)
+
+![Workflow](Workflow.png)
 
 ## 🎯 Business Value
 
